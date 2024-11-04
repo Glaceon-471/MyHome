@@ -1,0 +1,12 @@
+{
+    "player_requests_execution": "§cプレイヤーのみ実行可能です",
+    "help_command_myhome": "§a/myhome",
+    "help_command_set_get_remove": "§a/myhome <set|go|remove> [name]",
+    "help_command_list": "§a/myhome list",
+    "set_home": "§a%d, %d, %dを%sとして登録しました",
+    "go_home": "§a%sにテレポートしました",
+    "remove_home": "§a%sを削除しました",
+    "home_list": "§a%s : %d, %d, %d",
+    "non_home": "§c%sという場所は存在しません",
+    "error_word": "§c%sは不明な設定です"
+}

@@ -1,11 +1,15 @@
 package com.glaceon_471.myhome;
 
 import com.glaceon_471.myhome.utilities.HomeUtils;
-import jp.dreamingpig.dollyMC.utils.serialization.DStructureEntry;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.TranslatableComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class MyHome extends JavaPlugin {
@@ -15,16 +19,12 @@ public final class MyHome extends JavaPlugin {
         return Instance;
     }
 
-    private DStructureEntry PluginTranslation;
-
     public MyHome() {
         Instance = this;
     }
 
     @Override
     public void onEnable() {
-        PluginTranslation = DStructureEntry.openStructure(this, "Translation");
-
         getCommand("myhome").setExecutor(
             (sender, command, label, args) -> {
                 if (!(sender instanceof Player player)) {
@@ -84,22 +84,31 @@ public final class MyHome extends JavaPlugin {
         );
     }
 
-    private final Map<String, String> DefaultString = Map.of(
-        "player_requests_execution", "§cプレイヤーのみ実行可能です",
-        "help_command_myhome", "§a/myhome",
-        "help_command_set_get_remove", "§a/myhome <set|go|remove> [name]",
-        "help_command_list", "§a/myhome list",
-        "set_home", "§a%d, %d, %dを%sとして登録しました",
-        "go_home", "§a%sにテレポートしました",
-        "remove_home", "§a%sを削除しました",
-        "home_list", "§a%s : %d, %d, %d",
-        "non_home", "§c%sという場所は存在しません",
-        "error_word", "§c%sは不明な設定です"
-    );
-    public Component translatable(String key, Object... args) {
-        return Component.text(String.format(PluginTranslation.getString(
-            key,
-            DefaultString.get(key)
-        ).get(), args));
+    public TranslatableComponent translatable(String key, Object... args) {
+        List<TextComponent> components = new ArrayList<>();
+        for (Object obj : args) {
+            if (obj instanceof String s) {
+                components.add(Component.text(s));
+            }
+            else if (obj instanceof Boolean b) {
+                components.add(Component.text(b));
+            }
+            else if (obj instanceof Character c) {
+                components.add(Component.text(c));
+            }
+            else if (obj instanceof Double d) {
+                components.add(Component.text(d));
+            }
+            else if (obj instanceof Float f) {
+                components.add(Component.text(f));
+            }
+            else if (obj instanceof Integer i) {
+                components.add(Component.text(i));
+            }
+            else if (obj instanceof Long l) {
+                components.add(Component.text(l));
+            }
+        }
+        return Component.translatable("plugin.glaceon471.myhome." + key, components);
     }
 }
