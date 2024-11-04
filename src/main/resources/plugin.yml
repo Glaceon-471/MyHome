@@ -1,0 +1,10 @@
+name: MyHome
+version: '1.0.0'
+main: com.glaceon_471.myhome.MyHome
+api-version: '1.21'
+authors: [ Glaceon-471 ]
+depend: [ DollyMC ]
+
+commands:
+  myhome:
+    description: ホームを設定したり、テレポートしたりするコマンド (ヘルプは/myhomeで表示)

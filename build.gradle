@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.+'
+}
+
+group = 'com.glaceon471'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "purpurmc"
+        url = "https://repo.purpurmc.org/snapshots"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+
+    flatDir {
+        dir "libs"
+    }
+}
+
+dependencies {
+    compileOnly "org.purpurmc.purpur:purpur-api:1.21.1-R0.1-SNAPSHOT"
+    compileOnly "blank:dollymc:1.0.0"
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('purpur-plugin.yml') {
+        expand props
+    }
+}
